@@ -4,6 +4,7 @@ import { useRachas } from '../lib/RachasContext';
 import { addDaysStr, todayStr, DIAS } from '../lib/dates';
 import { currentStreak, longestStreak, completionRate, aggregateDayStats } from '../lib/streaks';
 import { HabitIcon } from '../lib/iconMap';
+import { iconBadgeStyle } from '../lib/presets';
 import EmptyState from '../components/EmptyState';
 
 function StatsView() {
@@ -105,7 +106,7 @@ function StatsView() {
             const ls = longestStreak(h, logs);
             return (
               <div className="record-card" key={h.id}>
-                <div className="record-icon" style={{ background: `${h.color}22`, color: h.color }}>
+                <div className="record-icon" style={iconBadgeStyle(h.color)}>
                   <HabitIcon name={h.icon} size={16} />
                 </div>
                 <span className="record-name">{h.name}</span>

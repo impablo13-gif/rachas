@@ -129,7 +129,7 @@ function CalendarView() {
             style={selectedId === h.id ? { borderColor: h.color, color: 'var(--text)' } : undefined}
             onClick={() => setSelectedId(h.id)}
           >
-            <HabitIcon name={h.icon} size={13} />
+            <HabitIcon name={h.icon} size={13} style={{ color: h.color }} />
             {h.name}
           </button>
         ))}

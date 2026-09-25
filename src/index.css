@@ -407,14 +407,15 @@ a { color: inherit; }
 }
 
 .empty-state-icon {
-  width: 64px;
-  height: 64px;
+  width: 68px;
+  height: 68px;
   border-radius: var(--radius-lg);
-  background: var(--surface-2);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
+  color: #fdfcff;
+  box-shadow: 0 8px 24px var(--accent-glow);
   margin-bottom: var(--space-2);
 }
 
@@ -713,8 +714,11 @@ a { color: inherit; }
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
-  transition: border-color 0.15s var(--ease), color 0.15s var(--ease);
+  transition: border-color 0.15s var(--ease), color 0.15s var(--ease), background 0.15s var(--ease), transform 0.15s var(--ease-spring);
 }
+
+.icon-swatch:hover { background: var(--surface-hover); color: var(--text); }
+.icon-swatch.selected { transform: scale(1.06); }
 
 .color-grid { display: flex; gap: 10px; flex-wrap: wrap; }
 

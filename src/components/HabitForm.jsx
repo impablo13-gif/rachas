@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { X, Trash2 } from 'lucide-react';
 import { HabitIcon } from '../lib/iconMap';
-import { HABIT_COLORS, HABIT_ICONS, SUGGESTIONS } from '../lib/presets';
+import { HABIT_COLORS, HABIT_ICONS, SUGGESTIONS, iconBadgeStyle } from '../lib/presets';
 import { DIAS_MON0_CORTOS } from '../lib/dates';
 
 const emptyForm = {
@@ -53,7 +53,7 @@ function HabitForm({ habit, onSave, onDelete, onClose, showSuggestions }) {
           <div className="suggestion-chips">
             {SUGGESTIONS.map((s) => (
               <button type="button" key={s.name} className="chip" onClick={() => applySuggestion(s)}>
-                <HabitIcon name={s.icon} size={14} />
+                <HabitIcon name={s.icon} size={14} style={{ color: s.color }} />
                 {s.name}
               </button>
             ))}
@@ -77,10 +77,10 @@ function HabitForm({ habit, onSave, onDelete, onClose, showSuggestions }) {
               <button
                 type="button" key={name}
                 className={`icon-swatch ${form.icon === name ? 'selected' : ''}`}
-                style={form.icon === name ? { borderColor: form.color, color: form.color, background: `${form.color}1a` } : undefined}
+                style={form.icon === name ? iconBadgeStyle(form.color) : undefined}
                 onClick={() => set({ icon: name })}
               >
-                <HabitIcon name={name} size={18} />
+                <HabitIcon name={name} size={18} strokeWidth={form.icon === name ? 2.3 : 2} />
               </button>
             ))}
           </div>

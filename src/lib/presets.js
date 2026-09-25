@@ -9,6 +9,33 @@ const HABIT_COLORS = [
   '#fb923c', // naranja
 ];
 
+// Pareja de tonos para el degradado de cada color de HABIT_COLORS (mismo índice).
+const HABIT_GRADIENTS = {
+  '#7c5cff': ['#8f6bff', '#5b3ddb'],
+  '#34d399': ['#4ee0ad', '#0ea472'],
+  '#60a5fa': ['#7db8fb', '#3b82f6'],
+  '#a78bfa': ['#c4a6fc', '#8b6ef0'],
+  '#fbbf24': ['#fcd34d', '#f59e0b'],
+  '#f472b6': ['#f9a8d4', '#ec4899'],
+  '#2dd4bf': ['#5eead4', '#14b8a6'],
+  '#fb923c': ['#fdba74', '#f97316'],
+  '#818cf8': ['#a5b4fc', '#6366f1'],
+};
+
+function gradientFor(color) {
+  const [from, to] = HABIT_GRADIENTS[color] || [color, color];
+  return `linear-gradient(135deg, ${from}, ${to})`;
+}
+
+// Estilo de insignia de icono: degradado vivo + icono claro + resplandor suave.
+function iconBadgeStyle(color) {
+  return {
+    background: gradientFor(color),
+    color: '#fdfcff',
+    boxShadow: `0 4px 16px ${color}4d`,
+  };
+}
+
 const HABIT_ICONS = [
   'Droplet', 'BookOpen', 'Dumbbell', 'Moon', 'Brain', 'Footprints', 'Apple',
   'PenLine', 'Music', 'Sun', 'Heart', 'Coffee', 'Ban', 'Wallet', 'Palette',
@@ -25,4 +52,4 @@ const SUGGESTIONS = [
   { name: 'Sin fumar', icon: 'Ban', color: '#f472b6', type: 'check' },
 ];
 
-export { HABIT_COLORS, HABIT_ICONS, SUGGESTIONS };
+export { HABIT_COLORS, HABIT_ICONS, SUGGESTIONS, gradientFor, iconBadgeStyle };

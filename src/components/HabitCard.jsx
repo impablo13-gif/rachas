@@ -3,6 +3,7 @@ import { HabitIcon } from '../lib/iconMap';
 import { useRachas } from '../lib/RachasContext';
 import { currentStreak, getValue, isCompletedOn } from '../lib/streaks';
 import { todayStr } from '../lib/dates';
+import { iconBadgeStyle } from '../lib/presets';
 
 function HabitCard({ habit, onOpen }) {
   const { logs, toggleComplete, incrementAmount } = useRachas();
@@ -13,8 +14,8 @@ function HabitCard({ habit, onOpen }) {
 
   return (
     <div className={`habit-card ${done ? 'done' : ''}`}>
-      <button className="habit-card-icon" style={{ background: `${habit.color}22`, color: habit.color }} onClick={() => onOpen(habit)}>
-        <HabitIcon name={habit.icon} size={20} strokeWidth={2.2} />
+      <button className="habit-card-icon" style={iconBadgeStyle(habit.color)} onClick={() => onOpen(habit)}>
+        <HabitIcon name={habit.icon} size={20} strokeWidth={2.3} />
       </button>
       <button className="habit-card-body" onClick={() => onOpen(habit)}>
         <span className="habit-card-name">{habit.name}</span>
@@ -34,18 +35,18 @@ function HabitCard({ habit, onOpen }) {
       {habit.type === 'check' ? (
         <button
           className={`check-toggle ${done ? 'checked' : ''}`}
-          style={done ? { background: habit.color, borderColor: habit.color } : undefined}
+          style={done ? { ...iconBadgeStyle(habit.color), borderColor: 'transparent' } : undefined}
           onClick={() => toggleComplete(habit, today)}
           aria-label={done ? 'Marcar como no completado' : 'Marcar como completado'}
         >
-          {done && <Check size={16} strokeWidth={3} color="#0a0c0f" />}
+          {done && <Check size={16} strokeWidth={3} color="#fdfcff" />}
         </button>
       ) : (
         <div className="amount-stepper">
           <button className="stepper-btn" onClick={() => incrementAmount(habit, today, -1)} aria-label="Restar">
             <Minus size={14} strokeWidth={2.5} />
           </button>
-          <button className="stepper-btn primary" style={done ? { background: habit.color, color: '#0a0c0f' } : undefined} onClick={() => incrementAmount(habit, today, 1)} aria-label="Sumar">
+          <button className="stepper-btn primary" style={done ? iconBadgeStyle(habit.color) : undefined} onClick={() => incrementAmount(habit, today, 1)} aria-label="Sumar">
             <Plus size={14} strokeWidth={2.5} />
           </button>
         </div>

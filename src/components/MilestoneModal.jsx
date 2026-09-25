@@ -1,5 +1,6 @@
 import { Flame } from 'lucide-react';
 import { HabitIcon } from '../lib/iconMap';
+import { iconBadgeStyle } from '../lib/presets';
 
 const MESSAGES = {
   3: 'Ya tienes impulso.',
@@ -35,8 +36,8 @@ function MilestoneModal({ habit, milestone, onClose }) {
             />
           ))}
         </div>
-        <div className="milestone-icon" style={{ background: `${habit.color}22`, color: habit.color }}>
-          <HabitIcon name={habit.icon} size={26} strokeWidth={2.2} />
+        <div className="milestone-icon" style={iconBadgeStyle(habit.color)}>
+          <HabitIcon name={habit.icon} size={26} strokeWidth={2.3} />
         </div>
         <div className="milestone-streak">
           <Flame size={22} className="flame-lit" strokeWidth={2.4} />

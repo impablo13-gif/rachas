@@ -3,6 +3,7 @@ import { Plus, ListChecks, ChevronUp, ChevronDown, Archive, ArchiveRestore, Sett
 import { useRachas } from '../lib/RachasContext';
 import { HabitIcon } from '../lib/iconMap';
 import { currentStreak } from '../lib/streaks';
+import { iconBadgeStyle } from '../lib/presets';
 import HabitForm from '../components/HabitForm';
 import EmptyState from '../components/EmptyState';
 
@@ -66,7 +67,7 @@ function HabitsView({ onOpenSettings }) {
                 <button className="icon-btn tiny" disabled={i === 0} onClick={() => move(h.id, -1)} aria-label="Subir"><ChevronUp size={15} /></button>
                 <button className="icon-btn tiny" disabled={i === activeHabits.length - 1} onClick={() => move(h.id, 1)} aria-label="Bajar"><ChevronDown size={15} /></button>
               </div>
-              <button className="manage-icon" style={{ background: `${h.color}22`, color: h.color }} onClick={() => setEditing(h)}>
+              <button className="manage-icon" style={iconBadgeStyle(h.color)} onClick={() => setEditing(h)}>
                 <HabitIcon name={h.icon} size={18} />
               </button>
               <button className="manage-body" onClick={() => setEditing(h)}>
@@ -92,7 +93,7 @@ function HabitsView({ onOpenSettings }) {
             <div className="manage-list" style={{ marginTop: 10 }}>
               {archived.map((h) => (
                 <div className="manage-row archived" key={h.id}>
-                  <button className="manage-icon" style={{ background: `${h.color}18`, color: h.color }} onClick={() => setEditing(h)}>
+                  <button className="manage-icon" style={iconBadgeStyle(h.color)} onClick={() => setEditing(h)}>
                     <HabitIcon name={h.icon} size={18} />
                   </button>
                   <button className="manage-body" onClick={() => setEditing(h)}>

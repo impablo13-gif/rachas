@@ -1,12 +1,12 @@
 const HABIT_COLORS = [
-  '#ff6b4a', // ember (brand accent)
-  '#34d399', // mint
-  '#60a5fa', // sky
-  '#a78bfa', // violet
-  '#fbbf24', // amber
-  '#f472b6', // pink
-  '#2dd4bf', // teal
-  '#fb923c', // orange
+  '#7c5cff', // violeta (acento de marca)
+  '#34d399', // menta
+  '#60a5fa', // cielo
+  '#a78bfa', // lavanda
+  '#fbbf24', // ámbar
+  '#f472b6', // rosa
+  '#2dd4bf', // turquesa
+  '#fb923c', // naranja
 ];
 
 const HABIT_ICONS = [

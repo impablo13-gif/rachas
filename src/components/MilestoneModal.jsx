@@ -14,7 +14,7 @@ const MESSAGES = {
   365: 'Un año entero. Enhorabuena.',
 };
 
-const CONFETTI_COLORS = ['#ff6b4a', '#34d399', '#fbbf24', '#60a5fa', '#f472b6'];
+const CONFETTI_COLORS = ['#7c5cff', '#34d399', '#fb7185', '#60a5fa', '#f472b6'];
 
 function MilestoneModal({ habit, milestone, onClose }) {
   const pieces = Array.from({ length: 18 }, (_, i) => i);

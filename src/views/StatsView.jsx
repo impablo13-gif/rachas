@@ -124,7 +124,7 @@ function StatsView() {
           <p className="section-title">Patrones semanales</p>
           <p style={{ fontSize: 14.5, lineHeight: 1.6 }}>
             Sueles cumplir mejor los <strong style={{ color: 'var(--mint)', textTransform: 'capitalize' }}>{bestDay.day}</strong> ({Math.round(bestDay.pct * 100)}%)
-            {' '}y te cuesta más los <strong style={{ color: 'var(--amber)', textTransform: 'capitalize' }}>{worstDay.day}</strong> ({Math.round(worstDay.pct * 100)}%).
+            {' '}y te cuesta más los <strong style={{ color: 'var(--rose)', textTransform: 'capitalize' }}>{worstDay.day}</strong> ({Math.round(worstDay.pct * 100)}%).
           </p>
         </div>
       )}

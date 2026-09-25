@@ -28,7 +28,7 @@ function WeekStrip() {
               style={{
                 background: isFuture
                   ? 'transparent'
-                  : pct >= 1 ? 'var(--mint)' : pct > 0 ? 'var(--amber)' : 'var(--surface-2)',
+                  : pct >= 1 ? 'var(--mint)' : pct > 0 ? 'var(--rose)' : 'var(--surface-2)',
                 opacity: d.due === 0 && !isFuture ? 0.3 : 1,
               }}
             />

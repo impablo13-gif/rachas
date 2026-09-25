@@ -42,7 +42,7 @@ function createHabit(data, input) {
     id: uid(),
     name: input.name.trim(),
     icon: input.icon || 'Circle',
-    color: input.color || '#ff6b4a',
+    color: input.color || '#7c5cff',
     type: input.type || 'check', // 'check' | 'amount'
     unit: input.unit || '',
     target: input.type === 'amount' ? Number(input.target) || 1 : 1,

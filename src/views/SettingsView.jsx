@@ -1,9 +1,25 @@
 import { useRef, useState } from 'react';
-import { ArrowLeft, Download, Upload, Flame } from 'lucide-react';
+import {
+  ArrowLeft, Download, Upload, Flame, LogOut, CloudCheck, CloudOff, RefreshCw,
+} from 'lucide-react';
 import { useRachas } from '../lib/RachasContext';
 
+function GoogleGIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48">
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z" />
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.9 19 13 24 13c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.1 29.6 4 24 4c-7.3 0-13.6 4.1-16.9 10.1z" />
+      <path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.2-5.1l-6.6-5.4C29.6 35.4 26.9 36 24 36c-5.3 0-9.7-3.1-11.3-7.9l-6.6 5c3.3 6.1 9.6 10.3 16.9 10.3z" />
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.3 5.5l6.6 5.4C39.9 36.9 44 31 44 24c0-1.3-.1-2.7-.4-3.5z" />
+    </svg>
+  );
+}
+
 function SettingsView({ onBack }) {
-  const { settings, updateSettings, exportData, importData, data } = useRachas();
+  const {
+    settings, updateSettings, exportData, importData, data, user, syncState, syncError,
+    signIn, signOutAccount,
+  } = useRachas();
   const fileInput = useRef(null);
   const [importMsg, setImportMsg] = useState('');
 
@@ -44,6 +60,47 @@ function SettingsView({ onBack }) {
       </header>
 
       <div className="card">
+        <p className="section-title">Cuenta</p>
+        {user ? (
+          <>
+            <div className="account-row">
+              {user.photoURL ? (
+                <img src={user.photoURL} alt="" className="account-avatar" referrerPolicy="no-referrer" />
+              ) : (
+                <div className="account-avatar account-avatar-fallback">{(user.displayName || user.email || '?').charAt(0).toUpperCase()}</div>
+              )}
+              <div className="account-info">
+                <span className="account-name">{user.displayName || 'Tu cuenta'}</span>
+                <span className="text-secondary" style={{ fontSize: 13 }}>{user.email}</span>
+              </div>
+            </div>
+            <div className="sync-status">
+              {syncState === 'loading' && <><RefreshCw size={14} className="spin" /> Sincronizando…</>}
+              {syncState === 'idle' && <><CloudCheck size={14} style={{ color: 'var(--mint)' }} /> Sincronizado entre tus dispositivos</>}
+              {syncState === 'error' && <><CloudOff size={14} style={{ color: 'var(--danger)' }} /> Error al sincronizar{syncError ? `: ${syncError}` : ''}</>}
+            </div>
+            <button className="btn btn-secondary" style={{ marginTop: 14 }} onClick={signOutAccount}>
+              <LogOut size={16} /> Cerrar sesión
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="text-secondary" style={{ fontSize: 14, marginBottom: 14, lineHeight: 1.5 }}>
+              Inicia sesión para que tus hábitos y tu progreso se sincronicen automáticamente entre todos tus dispositivos.
+            </p>
+            <button className="btn btn-secondary google-btn" onClick={signIn} disabled={syncState === 'loading'}>
+              <GoogleGIcon /> {syncState === 'loading' ? 'Conectando…' : 'Iniciar sesión con Google'}
+            </button>
+            {syncState === 'error' && (
+              <p className="text-secondary" style={{ fontSize: 13, marginTop: 10, color: 'var(--danger)' }}>
+                {syncError ? `No se pudo iniciar sesión: ${syncError}` : 'No se pudo iniciar sesión.'}
+              </p>
+            )}
+          </>
+        )}
+      </div>
+
+      <div className="card" style={{ marginTop: 12 }}>
         <p className="section-title">Apariencia</p>
         <label className="settings-toggle-row">
           <span>Reducir animaciones</span>
@@ -58,7 +115,9 @@ function SettingsView({ onBack }) {
       <div className="card" style={{ marginTop: 12 }}>
         <p className="section-title">Tus datos</p>
         <p className="text-secondary" style={{ fontSize: 14, marginBottom: 14, lineHeight: 1.5 }}>
-          Todo se guarda solo en este navegador. Exporta una copia de seguridad de vez en cuando para no perder tu progreso.
+          {user
+            ? 'Tus datos viven en tu cuenta y se sincronizan solos. Aun así, una copia de seguridad de vez en cuando nunca está de más.'
+            : 'Todo se guarda solo en este navegador. Exporta una copia de seguridad de vez en cuando para no perder tu progreso.'}
         </p>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <button className="btn btn-secondary" onClick={handleExport}>

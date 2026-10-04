@@ -2,11 +2,11 @@ import {
   createContext, useContext, useMemo, useState, useCallback, useEffect, useRef,
 } from 'react';
 import * as db from './db';
-import { currentStreak, hitMilestone, isCompletedOn } from './streaks';
+import { currentStreak, hitMilestone, isCompletedOn, todaySummary } from './streaks';
 import { todayStr } from './dates';
 import {
   watchAuth, signInWithGoogle, signOutUser, fetchUserDoc, writeUserDoc, watchUserDoc,
-  friendlyAuthError,
+  writeWidgetSummary, friendlyAuthError,
 } from './cloudSync';
 
 const RachasContext = createContext(null);
@@ -98,6 +98,29 @@ function RachasProvider({ children }) {
     [data.habits],
   );
 
+  // Token del widget de iPhone: se genera una vez y se guarda como un
+  // ajuste más (local o en la nube, igual que el resto).
+  const [widgetError, setWidgetError] = useState(null);
+  useEffect(() => {
+    if (!data.settings.widgetToken) {
+      mutate((prev) => db.updateSettings(prev, { widgetToken: crypto.randomUUID() }));
+    }
+    // Sólo comprueba una vez al cargar/cambiar de cuenta, no en cada tecla.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.settings.widgetToken, mutate]);
+
+  // Cada vez que cambian los hábitos o el progreso, sube un resumen de hoy
+  // (sin datos personales) al documento público que lee el widget.
+  useEffect(() => {
+    const token = data.settings.widgetToken;
+    if (!token) return;
+    const summary = todaySummary(activeHabits, data.logs);
+    writeWidgetSummary(token, summary).then(
+      () => setWidgetError(null),
+      (e) => setWidgetError(friendlyAuthError(e)),
+    );
+  }, [activeHabits, data.logs, data.settings.widgetToken]);
+
   const setValue = useCallback((habitId, dateStr, value) => {
     mutate((prev) => {
       const habit = prev.habits.find((h) => h.id === habitId);
@@ -166,8 +189,9 @@ function RachasProvider({ children }) {
     user,
     syncState,
     syncError,
+    widgetError,
     ...actions,
-  }), [data, activeHabits, celebration, user, syncState, syncError, actions]);
+  }), [data, activeHabits, celebration, user, syncState, syncError, widgetError, actions]);
 
   return <RachasContext.Provider value={value}>{children}</RachasContext.Provider>;
 }

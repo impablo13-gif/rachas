@@ -8,6 +8,7 @@ const DEFAULT_DATA = {
   settings: {
     reducedMotion: false,
     theme: 'light', // 'light' | 'dark'
+    widgetToken: null,
   },
 };
 

@@ -170,7 +170,24 @@ function hitMilestone(streak) {
   return MILESTONES.includes(streak) ? streak : null;
 }
 
+// Resumen de hoy para el widget de iPhone: cuántos hábitos tocan/llevas
+// hechos, el siguiente pendiente y la mejor racha activa.
+function todaySummary(habits, logs) {
+  const today = todayStr();
+  const { due, done } = aggregateDayStats(habits, logs, today);
+  const pending = habits.find((h) => isDueOn(h, today) && !isCompletedOn(h, logs, today));
+  const bestStreak = habits.reduce((best, h) => Math.max(best, currentStreak(h, logs)), 0);
+  return {
+    done,
+    total: due,
+    topPending: pending ? pending.name : '',
+    bestStreak,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
 export {
   MILESTONES, isDueOn, isCompletedOn, getValue, currentStreak, longestStreak,
   completionRate, nextMilestone, hitMilestone, weekCompletions, aggregateDayStats,
+  todaySummary,
 };

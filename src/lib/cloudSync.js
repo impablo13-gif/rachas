@@ -34,12 +34,21 @@ function watchUserDoc(uid, callback) {
   });
 }
 
+// Documento público (sin login) con el resumen de hoy, leído por el widget
+// de iPhone (Scriptable). El token largo en la ruta es lo único que lo
+// protege — ver firestore.rules.
+async function writeWidgetSummary(token, summary) {
+  await setDoc(doc(firestore, 'widgets', token), summary);
+}
+
 const FRIENDLY_AUTH_ERRORS = {
   'auth/popup-blocked': 'El navegador bloqueó la ventana de Google. Permite ventanas emergentes para este sitio e inténtalo de nuevo.',
   'auth/popup-closed-by-user': 'Cerraste la ventana de Google antes de terminar. Inténtalo de nuevo.',
   'auth/cancelled-popup-request': 'Inténtalo de nuevo.',
   'auth/unauthorized-domain': 'Este sitio todavía no está autorizado para iniciar sesión. Avisa para añadirlo en Firebase.',
   'auth/network-request-failed': 'No hay conexión a internet. Inténtalo de nuevo cuando estés conectado.',
+  'permission-denied': 'Todavía no está activada la regla que permite esto en Firebase. Avisa para activarla.',
+  unavailable: 'No hay conexión con el servidor ahora mismo. Se reintentará solo.',
 };
 
 function friendlyAuthError(error) {
@@ -49,5 +58,5 @@ function friendlyAuthError(error) {
 
 export {
   watchAuth, signInWithGoogle, signOutUser, fetchUserDoc, writeUserDoc, watchUserDoc,
-  friendlyAuthError,
+  writeWidgetSummary, friendlyAuthError,
 };

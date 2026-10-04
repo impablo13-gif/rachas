@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
 import {
   ArrowLeft, Download, Upload, Flame, LogOut, CloudCheck, CloudOff, RefreshCw, Sun, Moon,
+  Smartphone, Copy, Check,
 } from 'lucide-react';
 import { useRachas } from '../lib/RachasContext';
+import { buildScriptableScript } from '../lib/scriptableScript';
 
 function GoogleGIcon({ size = 18 }) {
   return (
@@ -18,10 +20,23 @@ function GoogleGIcon({ size = 18 }) {
 function SettingsView({ onBack }) {
   const {
     settings, updateSettings, exportData, importData, data, user, syncState, syncError,
-    signIn, signOutAccount,
+    widgetError, signIn, signOutAccount,
   } = useRachas();
   const fileInput = useRef(null);
   const [importMsg, setImportMsg] = useState('');
+  const [scriptCopied, setScriptCopied] = useState(false);
+
+  const handleCopyScript = async () => {
+    if (!settings.widgetToken) return;
+    const script = buildScriptableScript(settings.widgetToken);
+    try {
+      await navigator.clipboard.writeText(script);
+      setScriptCopied(true);
+      setTimeout(() => setScriptCopied(false), 2500);
+    } catch {
+      setScriptCopied(false);
+    }
+  };
 
   const handleExport = () => {
     const json = exportData();
@@ -121,6 +136,28 @@ function SettingsView({ onBack }) {
             onChange={(e) => updateSettings({ reducedMotion: e.target.checked })}
           />
         </label>
+      </div>
+
+      <div className="card" style={{ marginTop: 12 }}>
+        <p className="section-title">Widget en iPhone</p>
+        <p className="text-secondary" style={{ fontSize: 14, marginBottom: 14, lineHeight: 1.5 }}>
+          Un widget de verdad en tu pantalla de inicio, a través de la app gratuita{' '}
+          <strong style={{ color: 'var(--text)' }}>Scriptable</strong>. Instálala desde la App Store,
+          crea un script nuevo, pega el que copias aquí, y añade el widget a tu pantalla de inicio.
+        </p>
+        <button className="btn btn-secondary" onClick={handleCopyScript} disabled={!settings.widgetToken}>
+          {scriptCopied ? <Check size={16} /> : <Copy size={16} />}
+          {scriptCopied ? 'Copiado' : 'Copiar script de Scriptable'}
+        </button>
+        {widgetError && (
+          <p className="text-secondary" style={{ fontSize: 13, marginTop: 10, color: 'var(--danger)' }}>
+            <Smartphone size={13} style={{ verticalAlign: -2 }} /> {widgetError}
+          </p>
+        )}
+        <p className="text-tertiary" style={{ fontSize: 12.5, marginTop: 10, lineHeight: 1.5 }}>
+          El widget solo muestra un resumen (completados hoy, siguiente pendiente, mejor racha) —
+          nunca el detalle de tus hábitos. Se actualiza cuando iOS decide refrescarlo, no al instante.
+        </p>
       </div>
 
       <div className="card" style={{ marginTop: 12 }}>

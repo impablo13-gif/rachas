@@ -7,28 +7,37 @@
 @import '@fontsource/sora/800.css';
 
 :root {
-  --bg: #0b0b14;
-  --bg-elevated: #100f1a;
-  --surface: #15141f;
-  --surface-2: #1c1b29;
-  --surface-hover: #252333;
-  --border: #2b2940;
-  --border-soft: #201f2e;
+  /* Tema claro (por defecto) */
+  --bg: #f7f5fb;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f1eef9;
+  --surface-hover: #e7e2f5;
+  --border: #e2ddf0;
+  --border-soft: #ece8f7;
 
-  --text: #f4f3f9;
-  --text-secondary: #a29fb3;
-  --text-tertiary: #625f76;
+  --text: #1c1a24;
+  --text-secondary: #5d5a6b;
+  --text-tertiary: #938fa0;
 
   --accent: #7c5cff;
-  --accent-soft: #7c5cff26;
-  --accent-strong: #9478ff;
-  --accent-glow: #7c5cff70;
-  --mint: #34d399;
-  --mint-soft: #34d39926;
-  --rose: #fb7185;
-  --rose-soft: #fb718526;
-  --danger: #f87171;
-  --danger-soft: #f8717126;
+  --accent-soft: #7c5cff1f;
+  --accent-strong: #6a46ff;
+  --accent-text: #6633ee;
+  --accent-glow: #7c5cff4d;
+  --mint: #0f9d6b;
+  --mint-soft: #0f9d6b1f;
+  --rose: #d6166c;
+  --rose-soft: #d6166c1f;
+  --danger: #dc2626;
+  --danger-soft: #dc262619;
+
+  --shadow-sm: 0 1px 2px rgba(28, 26, 36, 0.06);
+  --shadow-md: 0 8px 24px rgba(28, 26, 36, 0.08);
+  --shadow-lg: 0 16px 48px rgba(28, 26, 36, 0.12);
+  --shadow-accent: 0 8px 20px rgba(124, 92, 255, 0.22);
+
+  --nav-translucent: rgba(255, 255, 255, 0.82);
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -45,16 +54,44 @@
   --space-7: 48px;
   --space-8: 64px;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
-  --shadow-accent: 0 8px 24px rgba(124, 92, 255, 0.3);
-
   --font-display: 'Sora', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b0b14;
+  --bg-elevated: #100f1a;
+  --surface: #15141f;
+  --surface-2: #1c1b29;
+  --surface-hover: #252333;
+  --border: #2b2940;
+  --border-soft: #201f2e;
+
+  --text: #f4f3f9;
+  --text-secondary: #a29fb3;
+  --text-tertiary: #625f76;
+
+  --accent: #7c5cff;
+  --accent-soft: #7c5cff26;
+  --accent-strong: #9478ff;
+  --accent-text: #9478ff;
+  --accent-glow: #7c5cff70;
+  --mint: #34d399;
+  --mint-soft: #34d39926;
+  --rose: #fb7185;
+  --rose-soft: #fb718526;
+  --danger: #f87171;
+  --danger-soft: #f8717126;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
+  --shadow-accent: 0 8px 24px rgba(124, 92, 255, 0.3);
+
+  --nav-translucent: rgba(15, 18, 22, 0.92);
 }
 
 * { box-sizing: border-box; }
@@ -207,7 +244,7 @@ a { color: inherit; }
   color: var(--text);
 }
 
-.nav-item.active .nav-icon { color: var(--accent); }
+.nav-item.active .nav-icon { color: var(--accent-text); }
 
 .nav-icon { flex-shrink: 0; }
 
@@ -220,7 +257,7 @@ a { color: inherit; }
   right: 0;
   display: flex;
   justify-content: space-around;
-  background: rgba(15, 18, 22, 0.92);
+  background: var(--nav-translucent);
   backdrop-filter: blur(16px);
   border-top: 1px solid var(--border-soft);
   padding: var(--space-2) var(--space-2) calc(var(--space-2) + env(safe-area-inset-bottom));
@@ -245,7 +282,7 @@ a { color: inherit; }
   transition: color 0.15s var(--ease);
 }
 
-.bottom-nav-item.active { color: var(--accent); }
+.bottom-nav-item.active { color: var(--accent-text); }
 .bottom-nav-item svg { transition: transform 0.15s var(--ease-spring); }
 .bottom-nav-item.active svg { transform: translateY(-1px); }
 
@@ -560,7 +597,7 @@ a { color: inherit; }
   color: var(--text-tertiary);
 }
 
-.week-strip-label.today { color: var(--accent); }
+.week-strip-label.today { color: var(--accent-text); }
 
 /* ================= Habit card ================= */
 
@@ -747,6 +784,10 @@ a { color: inherit; }
 .segmented.three { grid-template-columns: 1fr 1fr 1fr; }
 
 .segmented button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 9px 6px;
   border-radius: 10px;
   font-size: 13px;

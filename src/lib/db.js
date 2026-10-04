@@ -7,6 +7,7 @@ const DEFAULT_DATA = {
   milestonesShown: {}, // { [habitId]: number[] }
   settings: {
     reducedMotion: false,
+    theme: 'light', // 'light' | 'dark'
   },
 };
 

@@ -17,6 +17,10 @@ function Shell() {
     document.body.classList.toggle('reduce-motion', !!settings.reducedMotion);
   }, [settings.reducedMotion]);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', settings.theme === 'dark' ? 'dark' : 'light');
+  }, [settings.theme]);
+
   const openSettings = () => {
     setPrevTab(tab);
     setTab('settings');

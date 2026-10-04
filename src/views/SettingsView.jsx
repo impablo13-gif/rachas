@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import {
-  ArrowLeft, Download, Upload, Flame, LogOut, CloudCheck, CloudOff, RefreshCw,
+  ArrowLeft, Download, Upload, Flame, LogOut, CloudCheck, CloudOff, RefreshCw, Sun, Moon,
 } from 'lucide-react';
 import { useRachas } from '../lib/RachasContext';
 
@@ -102,6 +102,17 @@ function SettingsView({ onBack }) {
 
       <div className="card" style={{ marginTop: 12 }}>
         <p className="section-title">Apariencia</p>
+        <div className="field" style={{ marginBottom: 16 }}>
+          <label>Tema</label>
+          <div className="segmented">
+            <button type="button" className={settings.theme !== 'dark' ? 'active' : ''} onClick={() => updateSettings({ theme: 'light' })}>
+              <Sun size={14} /> Claro
+            </button>
+            <button type="button" className={settings.theme === 'dark' ? 'active' : ''} onClick={() => updateSettings({ theme: 'dark' })}>
+              <Moon size={14} /> Oscuro
+            </button>
+          </div>
+        </div>
         <label className="settings-toggle-row">
           <span>Reducir animaciones</span>
           <input
